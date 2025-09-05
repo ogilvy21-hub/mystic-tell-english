@@ -1040,7 +1040,71 @@ function checkAndResetIfNewDay() {
 }
 
 checkAndResetIfNewDay();
-        
+
+/* 완전한 모바일 수정 */
+@media screen and (max-width: 600px) {
+    .modal-content {
+        position: fixed !important;
+        top: 5% !important;
+        left: 5% !important;
+        right: 5% !important;
+        bottom: auto !important;
+        width: 90% !important;
+        max-width: none !important;
+        max-height: 90vh !important;
+        transform: none !important;
+        padding: 20px !important;
+        overflow-y: auto !important;
+        margin: 0 !important;
+    }
+    
+    .modal-header {
+        margin-bottom: 20px !important;
+    }
+    
+    .modal-title {
+        font-size: 1.4em !important;
+        text-align: center !important;
+    }
+    
+    .input-group {
+        margin: 15px 0 !important;
+    }
+    
+    .input-label {
+        font-size: 1em !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .input-field {
+        width: 100% !important;
+        padding: 12px !important;
+        font-size: 16px !important;
+        box-sizing: border-box !important;
+    }
+    
+    .btn {
+        width: 100% !important;
+        padding: 14px !important;
+        font-size: 1.1em !important;
+        margin-top: 15px !important;
+    }
+    
+    .result-card {
+        margin: 15px 0 !important;
+        padding: 15px !important;
+    }
+    
+    .tarot-three-cards {
+        flex-direction: column !important;
+        gap: 15px !important;
+    }
+    
+    .card-position {
+        min-width: auto !important;
+        max-width: none !important;
+    }
+}                
 </script>
     
     <!-- Footer (여기에 넣기) -->
