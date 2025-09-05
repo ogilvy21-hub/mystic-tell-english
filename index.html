@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystic Tell - Fortune Reading</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e1e2e 0%, #2d1b69 50%, #11998e 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 0 20px;
+        }
+        
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 3.5em;
+            filter: drop-shadow(0 0 20px rgba(255,215,0,0.6));
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(255,215,0,0.6)); }
+            to { filter: drop-shadow(0 0 30px rgba(255,215,0,0.9)); }
+        }
+        
+        .title {
+            font-size: 2.2em;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffd700, #ff69b4, #00bfff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+        
+        .subtitle {
+            opacity: 0.85;
+            font-size: 1em;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+        
+        .crystal-ball {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 25%, rgba(255,255,255,0.9), rgba(255,255,255,0.4), rgba(255,255,255,0.1), transparent);
+            margin: 25px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.3),
+                inset 0 0 50px rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            line-height: 1.2;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .crystal-ball::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(255,255,255,0.1), transparent);
+            animation: rotate 8s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .crystal-ball:hover {
+            transform: scale(1.08) translateY(-5px);
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.4),
+                inset 0 0 80px rgba(255,255,255,0.2),
+                0 0 50px rgba(255,215,0,0.3);
+        }
+        
+        .crystal-ball-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .services {
+            margin-top: 40px;
+            display: grid;
+            gap: 16px;
+        }
+        
+        .service-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.12);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.6s;
+        }
+        
+        .service-card:hover::before {
+            left: 100%;
+        }
+        
+        .service-card:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.25);
+        }
+        
+        .service-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .service-icon {
+            font-size: 2.2em;
+            margin-right: 16px;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+        }
+        
+        .service-content {
+            flex: 1;
+        }
+        
+        .service-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 4px;
+            letter-spacing: -0.01em;
+        }
+        
+        .service-desc {
+            opacity: 0.85;
+            font-size: 0.95em;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+        
+        .service-arrow {
+            font-size: 1.2em;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover .service-arrow {
+            opacity: 1;
+            transform: translateX(4px);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(30,30,46,0.95) 0%, rgba(45,27,105,0.95) 100%);
+            padding: 32px;
+            border-radius: 24px;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+            color: white;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .modal-title {
+            font-size: 1.6em;
+            font-weight: 600;
+            background: linear-gradient(45deg, #ffd700, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .close-btn {
+            font-size: 1.8em;
+            cursor: pointer;
+            color: rgba(255,255,255,0.6);
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .close-btn:hover {
+            color: white;
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+        
+        .input-group {
+            margin: 20px 0;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            font-size: 1em;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            background: white;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .result-card {
+            background: rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.12);
+            transition: all 0.3s ease;
+        }
+        
+        .result-card:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .result-title {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .result-score {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #ffd700;
+        }
+        
+        .result-level {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+        
+        .tarot-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 24px 0;
+        }
+        
+        .tarot-card {
+            aspect-ratio: 2/3;
+            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid rgba(255,255,255,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tarot-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(255,215,0,0.1), transparent);
+            animation: rotate 10s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .tarot-card:hover::before {
+            opacity: 1;
+        }
+        
+        .tarot-card:hover {
+            background: linear-gradient(145deg, rgba(255,215,0,0.2), rgba(255,255,255,0.1));
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255,215,0,0.2);
+        }
+        
+        .lucky-numbers {
+            display: flex;
+            justify-content: space-around;
+            margin: 24px 0;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .lucky-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            padding: 12px;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1em;
+            box-shadow: 0 8px 16px rgba(102,126,234,0.3);
+            animation: bounce-in 0.6s ease-out;
+        }
+        
+        @keyframes bounce-in {
+            0% { transform: scale(0) rotate(180deg); opacity: 0; }
+            80% { transform: scale(1.1) rotate(-10deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        
+        .compatibility-bar {
+            background: rgba(255,255,255,0.2);
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 16px 0;
+        }
+        
+        .compatibility-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 6px;
+            transition: width 1s ease-out;
+            animation: fill-bar 1.5s ease-out;
+        }
+        
+        @keyframes fill-bar {
+            from { width: 0%; }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .modal-content {
+                padding: 24px;
+                border-radius: 20px;
+            }
+            
+            .service-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo">🔮</div>
+            </div>
+            <div class="title">Mystic Tell</div>
+            <div class="subtitle">Discover Your Destiny</div>
+            <div class="crystal-ball" id="crystalBall">
+                <div class="crystal-ball-content">
+                    ✨<br>Tap to Begin
+                </div>
+            </div>
+        </div>
+        
+        <div class="services">
+            <div class="service-card" onclick="showDailyFortune()">
+                <div class="service-header">
+                    <div class="service-icon">🌟</div>
+                    <div class="service-content">
+                        <div class="service-title">Daily Fortune</div>
+                        <div class="service-desc">Discover what the stars have in store for you today</div>
+                    </div>
+                    <div class="service-arrow">→</div>
+                </div>
+            </div>
+            
+            <div class="service-card" onclick="showTarot()">
+                <div class="service-header">
+                    <div class="service-icon">🃏</div>
+                    <div class="service-content">
+                        <div class="service-title">Tarot Reading</div>
+                        <div class="service-desc">Draw mystical cards to reveal your path ahead</div>
+                    </div>
+                    <div class="service-arrow">→</div>
+                </div>
+            </div>
+            
+            <div class="service-card" onclick="showLuckyNumbers()">
+                <div class="service-header">
+                    <div class="service-icon">🎲</div>
+                    <div class="service-content">
+                        <div class="service-title">Lucky Numbers</div>
+                        <div class="service-desc">Generate your personalized fortune numbers</div>
+                    </div>
+                    <div class="service-arrow">→</div>
+                </div>
+            </div>
+            
+            <div class="service-card" onclick="showCompatibility()">
+                <div class="service-header">
+                    <div class="service-icon">💕</div>
+                    <div class="service-content">
+                        <div class="service-title">Love Match</div>
+                        <div class="service-desc">Explore your romantic compatibility and connection</div>
+                    </div>
+                    <div class="service-arrow">→</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modals -->
+    <div id="dailyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Daily Fortune Reading</div>
+                <div class="close-btn" onclick="closeModal('dailyModal')">&times;</div>
+            </div>
+            <div class="input-group">
+                <label class="input-label">Your Birth Date:</label>
+                <input type="date" class="input-field" id="dailyBirth">
+            </div>
+            <div class="input-group">
+                <label class="input-label">Your Name (optional):</label>
+                <input type="text" class="input-field" id="dailyName" placeholder="Enter your name">
+            </div>
+            <button class="btn" onclick="generateDailyFortune()">Reveal My Fortune</button>
+            <div id="dailyResult"></div>
+        </div>
+    </div>
+    
+    <div id="tarotModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Tarot Card Reading</div>
+                <div class="close-btn" onclick="closeModal('tarotModal')">&times;</div>
+            </div>
+            <p style="text-align: center; margin-bottom: 20px; opacity: 0.9;">Focus on your question and choose a card that calls to you...</p>
+            <div class="tarot-grid">
+                <div class="tarot-card" onclick="drawTarotCard(this)">🂠</div>
+                <div class="tarot-card" onclick="drawTarotCard(this)">🂠</div>
+                <div class="tarot-card" onclick="drawTarotCard(this)">🂠</div>
+                <div class="tarot-card" onclick="drawTarotCard(this)">🂠</div>
+                <div class="tarot-card" onclick="drawTarotCard(this)">🂠</div>
+                <div class="tarot-card" onclick="drawTarotCard(this)">🂠</div>
+            </div>
+            <div id="tarotResult"></div>
+        </div>
+    </div>
+    
+    <div id="luckyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Lucky Numbers</div>
+                <div class="close-btn" onclick="closeModal('luckyModal')">&times;</div>
+            </div>
+            <div class="input-group">
+                <label class="input-label">Your Birth Date:</label>
+                <input type="date" class="input-field" id="luckyBirth">
+            </div>
+            <button class="btn" onclick="generateLuckyNumbers()">Generate My Lucky Numbers</button>
+            <div id="luckyResult"></div>
+        </div>
+    </div>
+    
+    <div id="compatibilityModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Love Compatibility</div>
+                <div class="close-btn" onclick="closeModal('compatibilityModal')">&times;</div>
+            </div>
+            <div class="input-group">
+                <label class="input-label">Your Birth Date:</label>
+                <input type="date" class="input-field" id="comp1Birth">
+            </div>
+            <div class="input-group">
+                <label class="input-label">Partner's Birth Date:</label>
+                <input type="date" class="input-field" id="comp2Birth">
+            </div>
+            <button class="btn" onclick="calculateCompatibility()">Check Our Compatibility</button>
+            <div id="compatibilityResult"></div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced tarot cards data
+        const TAROT_CARDS = [
+            { name: "The Fool", meaning: "New beginnings, spontaneity, innocence" },
+            { name: "The Magician", meaning: "Manifestation, willpower, creativity" },
+            { name: "The High Priestess", meaning: "Intuition, subconscious, mystery" },
+            { name: "The Empress", meaning: "Fertility, femininity, abundance" },
+            { name: "The Emperor", meaning: "Authority, structure, leadership" },
+            { name: "The Hierophant", meaning: "Tradition, spirituality, guidance" },
+            { name: "The Lovers", meaning: "Love, relationships, choices" },
+            { name: "The Chariot", meaning: "Control, determination, success" },
+            { name: "Strength", meaning: "Courage, patience, inner strength" },
+            { name: "The Hermit", meaning: "Soul searching, introspection, wisdom" }
+        ];
+        
+        const FORTUNE_CATEGORIES = {
+            love: { name: "Love", icon: "💕" },
+            career: { name: "Career", icon: "💼" },
+            health: { name: "Health", icon: "💪" },
+            money: { name: "Wealth", icon: "💰" },
+            luck: { name: "General Luck", icon: "🍀" }
+        };
+        
+        // Create floating particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particles.appendChild(particle);
+            }
+        }
+        
+
+        
+        function showDailyFortune() {
+            document.getElementById('dailyModal').style.display = 'block';
+        }
+        
+        function showTarot() {
+            document.getElementById('tarotModal').style.display = 'block';
+        }
+        
+        function showLuckyNumbers() {
+            document.getElementById('luckyModal').style.display = 'block';
+        }
+        
+        function showCompatibility() {
+            document.getElementById('compatibilityModal').style.display = 'block';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        function generateDailyFortune() {
+            const birth = document.getElementById('dailyBirth').value;
+            const name = document.getElementById('dailyName').value || 'Seeker';
+            
+            if (!birth) {
+                alert('Please enter your birth date');
+                return;
+            }
+            
+            const today = new Date();
+            const seed = birth.replace(/-/g, '') + today.toDateString();
+            const scores = {};
+            
+            Object.keys(FORTUNE_CATEGORIES).forEach(category => {
+                const hash = simpleHash(seed + category);
+                scores[category] = (hash % 80) + 20;
+            });
+            
+            let html = `<div style="text-align: center; margin: 20px 0;">
+                <h3 style="margin-bottom: 16px; color: #ffd700;">✨ ${name}'s Fortune for Today ✨</h3>
+            </div>`;
+            
+            Object.entries(FORTUNE_CATEGORIES).forEach(([key, cat]) => {
+                const score = scores[key];
+                const level = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : score >= 40 ? 'Fair' : 'Challenging';
+                const color = score >= 80 ? '#4caf50' : score >= 60 ? '#2196f3' : score >= 40 ? '#ff9800' : '#f44336';
+                
+                html += `<div class="result-card">
+                    <div class="result-header">
+                        <span style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.3em;">${cat.icon}</span>
+                            <span class="result-title">${cat.name}</span>
+                        </span>
+                        <span class="result-score" style="color: ${color};">${score}</span>
+                    </div>
+                    <div class="result-level" style="color: ${color}; font-weight: 600;">${level}</div>
+                </div>`;
+            });
+            
+            document.getElementById('dailyResult').innerHTML = html;
+        }
+        
+        function drawTarotCard(cardElement) {
+            const randomCard = TAROT_CARDS[Math.floor(Math.random() * TAROT_CARDS.length)];
+            const isUpright = Math.random() > 0.3;
+            
+            cardElement.innerHTML = '🃏';
+            cardElement.style.background = 'linear-gradient(145deg, rgba(255,215,0,0.3), rgba(255,105,180,0.2))';
+            cardElement.style.borderColor = '#ffd700';
+            
+            const interpretation = isUpright ? 
+                'This card brings positive energy and new opportunities into your life.' : 
+                'This card suggests reflection and inner growth through challenges.';
+            
+            const html = `<div class="result-card" style="margin-top: 20px;">
+                <div style="text-align: center; margin-bottom: 16px;">
+                    <h3 style="color: #ffd700; margin-bottom: 8px;">${randomCard.name}</h3>
+                    <p style="font-size: 0.9em; opacity: 0.8;">${isUpright ? 'Upright' : 'Reversed'}</p>
+                </div>
+                <p style="margin-bottom: 12px;"><strong>Core Meaning:</strong> ${randomCard.meaning}</p>
+                <p><strong>Your Reading:</strong> ${interpretation}</p>
+            </div>`;
+            
+            document.getElementById('tarotResult').innerHTML = html;
+        }
+        
+        function generateLuckyNumbers() {
+            const birth = document.getElementById('luckyBirth').value;
+            
+            if (!birth) {
+                alert('Please enter your birth date');
+                return;
+            }
+            
+            const hash = simpleHash(birth + new Date().toDateString());
+            const numbers = [];
+            
+            for (let i = 0; i < 6; i++) {
+                const num = ((hash + i * 1234) % 49) + 1;
+                if (!numbers.includes(num)) {
+                    numbers.push(num);
+                }
+            }
+            
+            while (numbers.length < 6) {
+                const num = Math.floor(Math.random() * 49) + 1;
+                if (!numbers.includes(num)) {
+                    numbers.push(num);
+                }
+            }
+            
+            const html = `<div class="result-card" style="text-align: center;">
+                <h3 style="color: #ffd700; margin-bottom: 20px;">Your Lucky Numbers</h3>
+                <div class="lucky-numbers">
+                    ${numbers.sort((a,b) => a-b).map((n, i) => 
+                        `<div class="lucky-number" style="animation-delay: ${i * 0.1}s;">${n}</div>`
+                    ).join('')}
+                </div>
+                <p style="opacity: 0.9; margin-top: 16px;">Use these numbers for important decisions, lottery tickets, or whenever you need extra luck!</p>
+            </div>`;
+            
+            document.getElementById('luckyResult').innerHTML = html;
+        }
+        
+        function calculateCompatibility() {
+            const birth1 = document.getElementById('comp1Birth').value;
+            const birth2 = document.getElementById('comp2Birth').value;
+            
+            if (!birth1 || !birth2) {
+                alert('Please enter both birth dates');
+                return;
+            }
+            
+            const hash1 = simpleHash(birth1);
+            const hash2 = simpleHash(birth2);
+            const compatibility = ((hash1 + hash2) % 80) + 20;
+            
+            let level, advice, color;
+            if (compatibility >= 80) {
+                level = 'Soulmates';
+                advice = 'You two share an incredible cosmic connection! Your energies complement each other beautifully.';
+                color = '#4caf50';
+            } else if (compatibility >= 60) {
+                level = 'Great Match';
+                advice = 'You have wonderful potential together. Your differences create beautiful harmony.';
+                color = '#2196f3';
+            } else if (compatibility >= 40) {
+                level = 'Good Potential';
+                advice = 'With understanding and effort, you can build something truly special together.';
+                color = '#ff9800';
+            } else {
+                level = 'Growth Journey';
+                advice = 'Your relationship will teach you both valuable lessons about love and patience.';
+                color = '#f44336';
+            }
+            
+            const html = `<div class="result-card" style="text-align: center;">
+                <h3 style="color: #ffd700; margin-bottom: 16px;">Compatibility Analysis</h3>
+                <div style="font-size: 2.5em; margin: 16px 0; color: ${color};">${compatibility}%</div>
+                <h4 style="color: ${color}; margin-bottom: 16px;">${level}</h4>
+                <div class="compatibility-bar">
+                    <div class="compatibility-fill" style="width: ${compatibility}%; background: ${color};"></div>
+                </div>
+                <p style="line-height: 1.6; opacity: 0.9;">${advice}</p>
+            </div>`;
+            
+            document.getElementById('compatibilityResult').innerHTML = html;
+        }
+        
+        function simpleHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash);
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+        
+        // Initialize particles
+        createParticles();
+    </script>
+</body>
+</html>
