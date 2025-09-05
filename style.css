@@ -43,14 +43,15 @@
 }
 
 .footer-links a {
-    color: rgba(255,255,255,0.8);
+    color: #ffffff; /* 완전 흰색으로 */
     text-decoration: none;
     font-size: 0.9em;
     transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
-    color: #ffd700;
+   color: #ffd700; /* 호버시 금색 */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
 }
 
 .footer-bottom {
@@ -60,7 +61,7 @@
 
 .footer-bottom p {
     font-size: 0.8em;
-    opacity: 0.6;
+    color: #ffffff; /* 흰색으로 */
     margin: 4px 0;
 }
 
