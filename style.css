@@ -155,3 +155,47 @@
         padding: 16px;
     }
 }
+/* 모바일 모달 최적화 */
+        @media (max-width: 480px) {
+            .modal-content {
+                position: fixed !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                width: 85vw !important;
+                max-width: 350px !important;
+                max-height: 80vh !important;
+                padding: 20px !important;
+                margin: 0 !important;
+                border-radius: 16px !important;
+            }
+            
+            .modal-title {
+                font-size: 1.2em !important;
+                text-align: center !important;
+                margin-bottom: 20px !important;
+            }
+            
+            .input-field {
+                font-size: 16px !important;
+                padding: 12px 14px !important;
+                margin-bottom: 12px !important;
+            }
+            
+            .btn {
+                padding: 12px !important;
+                font-size: 0.95em !important;
+                margin-top: 12px !important;
+            }
+            
+            .result-card {
+                margin: 12px 0 !important;
+                padding: 16px !important;
+                font-size: 0.9em !important;
+            }
+            
+            .compatibility-fill {
+                height: 8px !important;
+            }
+        }
+    </style>
