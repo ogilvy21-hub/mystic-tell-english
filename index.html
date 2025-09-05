@@ -94,58 +94,6 @@
             letter-spacing: 0.05em;
         }
         
-        .crystal-ball {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 25%, rgba(255,255,255,0.9), rgba(255,255,255,0.4), rgba(255,255,255,0.1), transparent);
-            margin: 25px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8em;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 
-                0 20px 40px rgba(0,0,0,0.3),
-                inset 0 0 50px rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px);
-            text-align: center;
-            line-height: 1.2;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .crystal-ball::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(transparent, rgba(255,255,255,0.1), transparent);
-            animation: rotate 8s linear infinite;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .crystal-ball:hover {
-            transform: scale(1.08) translateY(-5px);
-            box-shadow: 
-                0 30px 60px rgba(0,0,0,0.4),
-                inset 0 0 80px rgba(255,255,255,0.2),
-                0 0 50px rgba(255,215,0,0.3);
-        }
-        
-        .crystal-ball-content {
-            position: relative;
-            z-index: 2;
-        }
-        
         .services {
             margin-top: 40px;
             display: grid;
@@ -405,54 +353,53 @@
             margin-top: 4px;
         }
         
-        .tarot-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin: 24px 0;
+        .tarot-three-cards {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
         }
         
-        .tarot-card {
-            aspect-ratio: 2/3;
-            background: linear-gradient(145deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+        .card-position {
+            flex: 1;
+            min-width: 120px;
+            max-width: 150px;
+            text-align: center;
+        }
+        
+        .card-label {
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            letter-spacing: 0.05em;
+        }
+        
+        .tarot-result-card {
+            background: linear-gradient(145deg, rgba(255,215,0,0.3), rgba(255,105,180,0.2));
+            border: 2px solid #ffd700;
             border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            aspect-ratio: 2/3;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2.5em;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 2px solid rgba(255,255,255,0.15);
-            position: relative;
-            overflow: hidden;
+            backdrop-filter: blur(10px);
         }
         
-        .tarot-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(transparent, rgba(255,215,0,0.1), transparent);
-            animation: rotate 10s linear infinite;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .card-meaning {
+            font-size: 0.85em;
+            opacity: 0.9;
+            line-height: 1.4;
         }
         
-        .tarot-card:hover::before {
-            opacity: 1;
-        }
-        
-        .tarot-card.selected {
-            background: linear-gradient(145deg, rgba(255,215,0,0.3), rgba(255,105,180,0.2)) !important;
-            border-color: #ffd700 !important;
-            cursor: default !important;
-            transform: translateY(-8px) scale(1.05);
-        }
-        
-        .tarot-card.selected:hover {
-            transform: translateY(-8px) scale(1.05);
+        .card-title {
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 4px;
         }
         
         .lucky-numbers {
@@ -534,11 +481,6 @@
             </div>
             <div class="title">Mystic Tell</div>
             <div class="subtitle">Discover Your Destiny</div>
-            <div class="crystal-ball" id="crystalBall">
-                <div class="crystal-ball-content">
-                    ✨<br>Tap to Begin
-                </div>
-            </div>
         </div>
         
         <div class="services">
@@ -614,16 +556,28 @@
                 <div class="modal-title">Tarot Card Reading</div>
                 <div class="close-btn" onclick="closeModal('tarotModal')">&times;</div>
             </div>
-            <p style="text-align: center; margin-bottom: 20px; opacity: 0.9;">Focus on your question and choose a card that calls to you...</p>
-            <div class="tarot-grid">
-                <div class="tarot-card" onclick="drawTarotCard(this)">🂠</div>
-                <div class="tarot-card" onclick="drawTarotCard(this)">🂠</div>
-                <div class="tarot-card" onclick="drawTarotCard(this)">🂠</div>
-                <div class="tarot-card" onclick="drawTarotCard(this)">🂠</div>
-                <div class="tarot-card" onclick="drawTarotCard(this)">🂠</div>
-                <div class="tarot-card" onclick="drawTarotCard(this)">🂠</div>
+            <p style="text-align: center; margin-bottom: 20px; opacity: 0.9;">Think of your question and draw three cards to reveal your path...</p>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button class="btn" onclick="drawThreeCards()" style="width: auto; padding: 12px 24px;">Draw Your Three Cards</button>
             </div>
-            <div id="tarotResult"></div>
+            <div class="tarot-three-cards" id="threeCardsContainer" style="display: none;">
+                <div class="card-position">
+                    <div class="card-label">PAST</div>
+                    <div class="tarot-result-card" id="pastCard"></div>
+                    <div class="card-meaning" id="pastMeaning"></div>
+                </div>
+                <div class="card-position">
+                    <div class="card-label">PRESENT</div>
+                    <div class="tarot-result-card" id="presentCard"></div>
+                    <div class="card-meaning" id="presentMeaning"></div>
+                </div>
+                <div class="card-position">
+                    <div class="card-label">FUTURE</div>
+                    <div class="tarot-result-card" id="futureCard"></div>
+                    <div class="card-meaning" id="futureMeaning"></div>
+                </div>
+            </div>
+            <div id="tarotSummary" style="margin-top: 20px;"></div>
         </div>
     </div>
     
@@ -664,16 +618,28 @@
     <script>
         // Enhanced tarot cards data
         const TAROT_CARDS = [
-            { name: "The Fool", meaning: "New beginnings, spontaneity, innocence" },
-            { name: "The Magician", meaning: "Manifestation, willpower, creativity" },
-            { name: "The High Priestess", meaning: "Intuition, subconscious, mystery" },
-            { name: "The Empress", meaning: "Fertility, femininity, abundance" },
-            { name: "The Emperor", meaning: "Authority, structure, leadership" },
-            { name: "The Hierophant", meaning: "Tradition, spirituality, guidance" },
-            { name: "The Lovers", meaning: "Love, relationships, choices" },
-            { name: "The Chariot", meaning: "Control, determination, success" },
-            { name: "Strength", meaning: "Courage, patience, inner strength" },
-            { name: "The Hermit", meaning: "Soul searching, introspection, wisdom" }
+            { name: "The Fool", meaning: "New beginnings, spontaneity, innocence", emoji: "🤪" },
+            { name: "The Magician", meaning: "Manifestation, willpower, creativity", emoji: "🎩" },
+            { name: "The High Priestess", meaning: "Intuition, subconscious, mystery", emoji: "🌙" },
+            { name: "The Empress", meaning: "Fertility, femininity, abundance", emoji: "👑" },
+            { name: "The Emperor", meaning: "Authority, structure, leadership", emoji: "🏰" },
+            { name: "The Hierophant", meaning: "Tradition, spirituality, guidance", emoji: "⛪" },
+            { name: "The Lovers", meaning: "Love, relationships, choices", emoji: "💕" },
+            { name: "The Chariot", meaning: "Control, determination, success", emoji: "🏎️" },
+            { name: "Strength", meaning: "Courage, patience, inner strength", emoji: "🦁" },
+            { name: "The Hermit", meaning: "Soul searching, introspection, wisdom", emoji: "🕯️" },
+            { name: "Wheel of Fortune", meaning: "Good luck, karma, life cycles", emoji: "🎡" },
+            { name: "Justice", meaning: "Justice, fairness, truth", emoji: "⚖️" },
+            { name: "The Hanged Man", meaning: "Suspension, restriction, letting go", emoji: "🙃" },
+            { name: "Death", meaning: "Endings, beginnings, change", emoji: "💀" },
+            { name: "Temperance", meaning: "Balance, moderation, patience", emoji: "👼" },
+            { name: "The Devil", meaning: "Shadow self, attachment, addiction", emoji: "😈" },
+            { name: "The Tower", meaning: "Sudden change, upheaval, chaos", emoji: "🗼" },
+            { name: "The Star", meaning: "Hope, faith, purpose", emoji: "⭐" },
+            { name: "The Moon", meaning: "Illusion, fear, anxiety", emoji: "🌙" },
+            { name: "The Sun", meaning: "Positivity, fun, warmth", emoji: "☀️" },
+            { name: "Judgement", meaning: "Judgement, rebirth, inner calling", emoji: "📯" },
+            { name: "The World", meaning: "Completion, accomplishment, travel", emoji: "🌍" }
         ];
         
         const FORTUNE_CATEGORIES = {
@@ -697,14 +663,99 @@
             }
         }
         
-
-        
         function showDailyFortune() {
             document.getElementById('dailyModal').style.display = 'block';
         }
         
         function showTarot() {
             document.getElementById('tarotModal').style.display = 'block';
+            resetTarotReading();
+        }
+        
+        function resetTarotReading() {
+            document.getElementById('threeCardsContainer').style.display = 'none';
+            document.getElementById('tarotSummary').innerHTML = '';
+        }
+        
+        function drawThreeCards() {
+            // Select 3 random different cards
+            const selectedCards = [];
+            const usedIndices = new Set();
+            
+            while (selectedCards.length < 3) {
+                const randomIndex = Math.floor(Math.random() * TAROT_CARDS.length);
+                if (!usedIndices.has(randomIndex)) {
+                    usedIndices.add(randomIndex);
+                    const card = TAROT_CARDS[randomIndex];
+                    const isUpright = Math.random() > 0.3;
+                    selectedCards.push({ ...card, isUpright });
+                }
+            }
+            
+            // Display the three cards
+            const positions = ['past', 'present', 'future'];
+            const positionLabels = ['Past', 'Present', 'Future'];
+            
+            positions.forEach((position, index) => {
+                const card = selectedCards[index];
+                const cardElement = document.getElementById(`${position}Card`);
+                const meaningElement = document.getElementById(`${position}Meaning`);
+                
+                cardElement.innerHTML = card.emoji;
+                
+                const orientation = card.isUpright ? 'Upright' : 'Reversed';
+                const interpretations = {
+                    past: card.isUpright ? 
+                        'Past influences that shaped your current situation.' : 
+                        'Past challenges or lessons that needed to be learned.',
+                    present: card.isUpright ? 
+                        'Current energies and opportunities available to you.' : 
+                        'Current obstacles or areas requiring attention.',
+                    future: card.isUpright ? 
+                        'Positive potential and likely outcomes ahead.' : 
+                        'Challenges to prepare for or avoid in the future.'
+                };
+                
+                meaningElement.innerHTML = `
+                    <div class="card-title">${card.name}</div>
+                    <div style="color: ${card.isUpright ? '#4caf50' : '#ff9800'}; font-size: 0.8em; margin-bottom: 6px;">${orientation}</div>
+                    <div>${interpretations[position]}</div>
+                `;
+            });
+            
+            // Show the cards container
+            document.getElementById('threeCardsContainer').style.display = 'flex';
+            
+            // Generate overall summary
+            const summary = generateThreeCardSummary(selectedCards);
+            document.getElementById('tarotSummary').innerHTML = `
+                <div class="result-card">
+                    <h3 style="color: #ffd700; margin-bottom: 16px; text-align: center;">Your Three-Card Reading Summary</h3>
+                    <p style="line-height: 1.6;">${summary}</p>
+                </div>
+            `;
+        }
+        
+        function generateThreeCardSummary(cards) {
+            const [past, present, future] = cards;
+            
+            let summary = `Your reading reveals a journey from ${past.name.toLowerCase()} in your past, `;
+            summary += `through ${present.name.toLowerCase()} in your present, `;
+            summary += `toward ${future.name.toLowerCase()} in your future. `;
+            
+            if (past.isUpright && present.isUpright && future.isUpright) {
+                summary += 'This is a very positive reading showing growth and favorable outcomes. ';
+            } else if (!past.isUpright && present.isUpright && future.isUpright) {
+                summary += 'You are moving from past challenges into a much brighter future. ';
+            } else if (past.isUpright && !present.isUpright && future.isUpright) {
+                summary += 'Current difficulties are temporary - your path leads to positive resolution. ';
+            } else {
+                summary += 'This reading suggests a time for careful reflection and mindful action. ';
+            }
+            
+            summary += 'Remember that tarot provides guidance for self-reflection, and your choices shape your destiny.';
+            
+            return summary;
         }
         
         function showLuckyNumbers() {
@@ -759,30 +810,6 @@
             });
             
             document.getElementById('dailyResult').innerHTML = html;
-        }
-        
-        function drawTarotCard(cardElement) {
-            const randomCard = TAROT_CARDS[Math.floor(Math.random() * TAROT_CARDS.length)];
-            const isUpright = Math.random() > 0.3;
-            
-            cardElement.innerHTML = '🃏';
-            cardElement.style.background = 'linear-gradient(145deg, rgba(255,215,0,0.3), rgba(255,105,180,0.2))';
-            cardElement.style.borderColor = '#ffd700';
-            
-            const interpretation = isUpright ? 
-                'This card brings positive energy and new opportunities into your life.' : 
-                'This card suggests reflection and inner growth through challenges.';
-            
-            const html = `<div class="result-card" style="margin-top: 20px;">
-                <div style="text-align: center; margin-bottom: 16px;">
-                    <h3 style="color: #ffd700; margin-bottom: 8px;">${randomCard.name}</h3>
-                    <p style="font-size: 0.9em; opacity: 0.8;">${isUpright ? 'Upright' : 'Reversed'}</p>
-                </div>
-                <p style="margin-bottom: 12px;"><strong>Core Meaning:</strong> ${randomCard.meaning}</p>
-                <p><strong>Your Reading:</strong> ${interpretation}</p>
-            </div>`;
-            
-            document.getElementById('tarotResult').innerHTML = html;
         }
         
         function generateLuckyNumbers() {
