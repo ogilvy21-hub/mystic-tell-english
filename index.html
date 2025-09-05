@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mystic Tell - Fortune Reading</title>
+    <link rel="icon" type="image/png" href="https://github.com/user-attachments/assets/2092e926-f909-48db-b860-57624463b26e">
     <style>
         * {
             margin: 0;
@@ -443,10 +444,15 @@
             opacity: 1;
         }
         
-        .tarot-card:hover {
-            background: linear-gradient(145deg, rgba(255,215,0,0.2), rgba(255,255,255,0.1));
+        .tarot-card.selected {
+            background: linear-gradient(145deg, rgba(255,215,0,0.3), rgba(255,105,180,0.2)) !important;
+            border-color: #ffd700 !important;
+            cursor: default !important;
             transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(255,215,0,0.2);
+        }
+        
+        .tarot-card.selected:hover {
+            transform: translateY(-8px) scale(1.05);
         }
         
         .lucky-numbers {
