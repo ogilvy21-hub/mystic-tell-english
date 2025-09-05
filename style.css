@@ -118,3 +118,40 @@
 .legal-content ul {
     margin-left: 20px;
 }
+
+
+/* 모바일 모달 수정 */
+@media (max-width: 480px) {
+    .modal-content {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90vw;
+        max-width: 350px;
+        max-height: 85vh;
+        padding: 20px;
+        margin: 0;
+        border-radius: 16px;
+    }
+    
+    .modal-title {
+        font-size: 1.3em;
+        text-align: center;
+    }
+    
+    .input-field {
+        font-size: 16px; /* iOS 줌 방지 */
+        padding: 12px;
+    }
+    
+    .btn {
+        padding: 14px;
+        font-size: 1em;
+    }
+    
+    .result-card {
+        margin: 12px 0;
+        padding: 16px;
+    }
+}
