@@ -663,6 +663,25 @@
             }
         }
         
+        // Age verification function
+        function verifyAge(birthDate) {
+            const today = new Date();
+            const birth = new Date(birthDate);
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDifference = today.getMonth() - birth.getMonth();
+            
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+            
+            if (age < 13) {
+                alert('Sorry, you must be at least 13 years old to use this service. This is required by law to protect minors.');
+                return false;
+            }
+            
+            return true;
+        }
+        
         function showDailyFortune() {
             document.getElementById('dailyModal').style.display = 'block';
         }
@@ -862,6 +881,10 @@
             const hash1 = simpleHash(birth1);
             const hash2 = simpleHash(birth2);
             const compatibility = ((hash1 + hash2) % 80) + 20;
+            
+            // Clear input fields immediately after processing
+            document.getElementById('comp1Birth').value = '';
+            document.getElementById('comp2Birth').value = '';
             
             let level, advice, color;
             if (compatibility >= 80) {
