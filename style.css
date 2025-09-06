@@ -119,75 +119,70 @@
     margin-left: 20px;
 }
 
-/* 모바일 모달 최적화 */
-        @media (max-width: 480px) {
-            .modal-content {
-                position: fixed !important;
-                top: 50% !important;
-                left: 50% !important;
-                transform: translate(-50%, -50%) !important;
-                width: 85vw !important;
-                max-width: 350px !important;
-                max-height: 80vh !important;
-                padding: 20px !important;
-                margin: 0 !important;
-                border-radius: 16px !important;
-            }
-            
-            .modal-title {
-                font-size: 1.2em !important;
-                text-align: center !important;
-                margin-bottom: 20px !important;
-            }
-            
-            .input-field {
-                font-size: 16px !important;
-                padding: 12px 14px !important;
-                margin-bottom: 12px !important;
-            }
-            
-            .btn {
-                padding: 12px !important;
-                font-size: 0.95em !important;
-                margin-top: 12px !important;
-            }
-            
-            .result-card {
-                margin: 12px 0 !important;
-                padding: 16px !important;
-                font-size: 0.9em !important;
-            }
-            
-            .compatibility-fill {
-                height: 8px !important;
-            }
-        }
-/* 모바일 날짜 및 모달 최적화 */
-@media screen and (max-width: 500px) {
+/* 모바일 최적화 - 통합 버전 */
+@media screen and (max-width: 600px) {
+    .container {
+        padding: 16px;
+    }
+    
     .modal-content {
+        position: fixed !important;
         top: 50% !important;
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
         width: 90vw !important;
         max-width: 350px !important;
-        max-height: 75vh !important;
+        max-height: 80vh !important;
+        padding: 20px !important;
+        margin: 0 !important;
+        border-radius: 16px !important;
         overflow-y: auto !important;
-        padding: 16px !important;
+    }
+    
+    .service-card {
+        padding: 20px;
     }
     
     .input-group {
-        margin: 12px 0 !important;
+        margin: 15px 0 !important;
     }
     
     .input-field {
+        width: 100% !important;
+        max-width: 280px !important;
         height: 48px !important;
-        padding: 10px 14px !important;
+        padding: 12px 14px !important;
         font-size: 16px !important;
+        box-sizing: border-box !important;
+        -webkit-appearance: none !important;
     }
     
     .btn {
+        width: 100% !important;
         height: 48px !important;
+        padding: 14px !important;
         font-size: 16px !important;
+        margin-top: 15px !important;
+    }
+    
+    .result-card {
+        margin: 15px 0 !important;
+        padding: 16px !important;
+        font-size: 0.9em !important;
+    }
+    
+    .tarot-three-cards {
+        flex-direction: column !important;
+        gap: 15px !important;
+    }
+    
+    .card-position {
+        min-width: auto !important;
+        max-width: none !important;
+    }
+    
+    .compatibility-fill {
+        height: 8px !important;
     }
 }
     </style>
