@@ -647,6 +647,17 @@
                     <div class="service-arrow">→</div>
                 </div>
             </div>
+            
+            <div class="service-card" onclick="showCharacterGallery()">
+                <div class="service-header">
+                    <div class="service-icon">🎭</div>
+                    <div class="service-content">
+                        <div class="service-title">K-pop Characters</div>
+                        <div class="service-desc">Discover your K-pop demon hunter match</div>
+                    </div>
+                    <div class="service-arrow">→</div>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -735,6 +746,16 @@
         </div>
     </div>
 
+    <div id="characterModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">K-pop Demon Hunters</div>
+                <div class="close-btn" onclick="closeModal('characterModal')">&times;</div>
+            </div>
+            <div id="characterGalleryContent"></div>
+        </div>
+    </div>
+
     <script>
         // Enhanced tarot cards data
         const TAROT_CARDS = [
@@ -761,6 +782,145 @@
             { name: "Judgement", meaning: "Judgement, rebirth, inner calling", emoji: "📯" },
             { name: "The World", meaning: "Completion, accomplishment, travel", emoji: "🌍" }
         ];
+
+        // K-pop Demon Hunters Character Fortune System - English Version
+        const KPOP_CHARACTERS = {
+            rumi: {
+                name: "Rumi",
+                title: "The Responsible Leader",
+                group: "Huntr/x",
+                traits: ["Responsibility", "Leadership", "Growth-oriented", "Protective Instinct"],
+                personality: "You are like Rumi, a person with strong responsibility and leadership. Sometimes you try to carry heavy burdens alone, but you achieve true growth through those challenges.",
+                advice: {
+                    love: "Approach with a sincere heart. Your authenticity will move the other person's heart.",
+                    career: "It's time to shine in a leadership role. Don't be afraid of responsibility.",
+                    health: "Stress management is important. Don't try to handle everything by yourself.",
+                    money: "Long-term planning is the key to success. Consider careful investments.",
+                    luck: "True fortune comes when you accept your own identity."
+                },
+                todayMessage: "Today is the day when your leadership shines. People around you will want to follow you."
+            },
+            mira: {
+                name: "Mira",
+                title: "The Honest Rebel",
+                group: "Huntr/x", 
+                traits: ["Honesty", "Independence", "Strength", "Authenticity"],
+                personality: "You are like Mira, a person with strong will hidden beneath a gentle appearance. You're not afraid to express yourself honestly and have the courage to walk your own path.",
+                advice: {
+                    love: "Don't hide your true feelings. Your honesty is attractive.",
+                    career: "Try new approaches that aren't bound by convention.",
+                    health: "Release stress through emotional expression. Exercise is also a good method.",
+                    money: "It's time to trust your intuition and make bold decisions.",
+                    luck: "True opportunities come when you don't give up being yourself."
+                },
+                todayMessage: "Today your honesty will open doors to new relationships. Don't be afraid to express your true feelings."
+            },
+            zoey: {
+                name: "Zoey",
+                title: "The Charismatic Youngest",
+                group: "Huntr/x",
+                traits: ["Charisma", "Adaptability", "Creativity", "Innocence"],
+                personality: "You are like Zoey, hiding strong charisma within a cute appearance. You have the ability to understand various cultures and create your own unique color.",
+                advice: {
+                    love: "Show your natural charm. The other person will fall for your true self.",
+                    career: "You can gain attention with creative ideas. Have confidence.",
+                    health: "Release energy through active hobbies.",
+                    money: "Pay attention to trends among the younger generation to discover new opportunities.",
+                    luck: "A pure mindset will bring unexpected help."
+                },
+                todayMessage: "Today is the day when your hidden talents shine. Express yourself as if you're on stage."
+            },
+            jinu: {
+                name: "Jinu",
+                title: "The Redemptive Soul",
+                group: "Saja Boys",
+                traits: ["Self-reflection", "Will to Change", "Sacrificial Spirit", "Deep Emotions"],
+                personality: "You are like Jinu, a person who acknowledges past mistakes and has a strong will to become a better person. You possess deep emotions and reflective abilities.",
+                advice: {
+                    love: "Don't be bound by the past. Have courage for a new beginning.",
+                    career: "It's time to utilize wisdom gained from experience. Consider a mentoring role.",
+                    health: "Finding inner peace is important. Try meditation or yoga.",
+                    money: "Careful judgment and long-term perspective will bring success.",
+                    luck: "True repentance and will to change will create new opportunities."
+                },
+                todayMessage: "Today is the day you can let go of the past and make a new start. Your will to change will inspire those around you."
+            },
+            celine: {
+                name: "Celine",
+                title: "The Wise Protector",
+                group: "Mentor",
+                traits: ["Wisdom", "Protective Instinct", "Patience", "Sacrifice"],
+                personality: "You are like Celine, a person with the natural ability to protect and guide others. You navigate difficult situations with deep wisdom and patience.",
+                advice: {
+                    love: "Love that helps the other person grow is true love. Waiting is also a form of love.",
+                    career: "You will achieve great success in roles that lead juniors or colleagues.",
+                    health: "Consistent management and prevention are important. Get regular check-ups.",
+                    money: "Stable investments and savings will secure your future.",
+                    luck: "Good deeds for others will bring unexpected blessings."
+                },
+                todayMessage: "Today is the day when your wisdom becomes a great help to someone. Listen to those seeking advice."
+            },
+            gwima: {
+                name: "Gwi-Ma",
+                title: "The Transformative Force",
+                group: "Cosmic Power",
+                traits: ["Transformative Power", "Strong Will", "Charisma", "Status Quo Breaker"],
+                personality: "You are like Gwi-Ma, a person with powerful force to change the status quo. You're a natural innovator who doesn't settle for existing order and creates new changes.",
+                advice: {
+                    love: "Have the courage to change existing relationship patterns. True change brings new love.",
+                    career: "You can become a game changer in your industry. Don't fear innovative ideas.",
+                    health: "This is a time when you can completely change your lifestyle habits with strong willpower.",
+                    money: "Boldly change your existing investment methods. Innovative approaches will bring great profits.",
+                    luck: "When you don't fear change, the universe becomes your ally."
+                },
+                todayMessage: "Today is the day when your transformative energy reaches its peak. Take on new challenges without fear."
+            },
+            derpy: {
+                name: "Derpy",
+                title: "The Joyful Messenger",
+                group: "Spirit Guides",
+                traits: ["Communication Skills", "Innocence", "Cultural Connection", "Joy Spreading"],
+                personality: "You are like Derpy, a person with the special ability to connect people and spread joy. You deliver good news with a pure heart and serve as a cultural bridge.",
+                advice: {
+                    love: "Sincere communication is the key to relationships. Your innocence will open the other person's heart.",
+                    career: "You will shine in roles that facilitate communication between teams. Take on the messenger role.",
+                    health: "Positive energy brings healing power. Don't lose laughter and joy.",
+                    money: "Good information and networking will bring financial opportunities.",
+                    luck: "When you act with pure intentions, unexpected luck will come."
+                },
+                todayMessage: "Today is the day when your bright energy brings great joy to those around you. Become a messenger of good news."
+            },
+            sussie: {
+                name: "Sussie",
+                title: "The Wise Observer",
+                group: "Spirit Guides", 
+                traits: ["Insight", "Protective Instinct", "Keen Observation", "Traditional Wisdom"],
+                personality: "You are like Sussie, a person with outstanding insight as if seeing the world with three eyes. You may seem prickly on the outside, but you actually have deep affection and protective instincts.",
+                advice: {
+                    love: "Don't be fooled by superficial things. Trust your ability to read true hearts.",
+                    career: "You can identify the core of problems with sharp analytical skills. Consultant or advisor roles suit you.",
+                    health: "Don't miss your body's signals. Prevention is more important than treatment.",
+                    money: "Thorough analysis before investing will prevent major losses. Caution is a virtue.",
+                    luck: "The harmony of traditional wisdom and modern sensibility will bring success."
+                },
+                todayMessage: "Today is the day when your keen insight helps with important decisions. Trust your intuition and don't spare advice."
+            },
+            healerhan: {
+                name: "Healer Han",
+                title: "The Alternative Healer",
+                group: "Wise Healers",
+                traits: ["Creative Solutions", "Traditional Wisdom", "Sense of Humor", "Unique Approach"],
+                personality: "You are like Healer Han, a person who combines traditional wisdom with modern sensibility to find unique solutions. You heal people by appropriately mixing seriousness with humor.",
+                advice: {
+                    love: "Relationship problems sometimes require creative approaches. Let go of stereotypes and try new methods.",
+                    career: "You can occupy a unique position through the harmony of tradition and innovation. Develop your own style.",
+                    health: "Balance between body and mind is important. Find your own method for stress relief.",
+                    money: "You can find opportunities in niche markets or alternative approaches.",
+                    luck: "When you approach things from a different perspective than others, you'll discover hidden opportunities."
+                },
+                todayMessage: "Today is the day when your original ideas become the key to solving stuck situations. Don't be bound by conventional methods."
+            }
+        };
         
         const FORTUNE_CATEGORIES = {
             love: { name: "Love", icon: "💕" },
@@ -769,6 +929,159 @@
             money: { name: "Wealth", icon: "💰" },
             luck: { name: "General Luck", icon: "🍀" }
         };
+
+        // Match character based on birth date and gender
+        function getCharacterMatch(birthDate, gender = null) {
+            const hash = simpleHash(birthDate);
+            const characters = Object.keys(KPOP_CHARACTERS);
+            const characterKey = characters[hash % characters.length];
+            return KPOP_CHARACTERS[characterKey];
+        }
+
+        // Generate character-based fortune
+        function generateCharacterFortune(birthDate, name = "Seeker") {
+            const character = getCharacterMatch(birthDate);
+            const today = new Date();
+            const seed = birthDate.replace(/-/g, '') + today.toDateString();
+            
+            // Generate scores for each category
+            const scores = {};
+            Object.keys(FORTUNE_CATEGORIES).forEach(category => {
+                const hash = simpleHash(seed + category + character.name);
+                scores[category] = (hash % 80) + 20;
+            });
+            
+            let html = `
+                <div style="text-align: center; margin: 20px 0;">
+                    <div style="font-size: 2em; margin-bottom: 10px;">${character.group === 'Huntr/x' ? '⭐' : character.group === 'Saja Boys' ? '🔥' : character.group === 'Mentor' ? '🌙' : character.group === 'Cosmic Power' ? '⚡' : character.group === 'Spirit Guides' ? '🌟' : '🌿'}</div>
+                    <h3 style="color: #ffd700; margin-bottom: 8px;">✨ ${name}'s Character Match ✨</h3>
+                    <h2 style="color: #ff69b4; margin-bottom: 8px;">${character.name}</h2>
+                    <p style="color: #00bfff; margin-bottom: 16px; font-style: italic;">${character.title}</p>
+                </div>
+                
+                <div class="result-card">
+                    <h4 style="color: #ffd700; margin-bottom: 12px;">🎭 Your Character Profile</h4>
+                    <p style="line-height: 1.6; margin-bottom: 12px;">${character.personality}</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
+                        ${character.traits.map(trait => 
+                            `<span style="background: rgba(255,215,0,0.2); color: #ffd700; padding: 4px 8px; border-radius: 12px; font-size: 0.85em;">${trait}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <h4 style="color: #ffd700; margin-bottom: 12px;">💫 Today's Message</h4>
+                    <p style="line-height: 1.6; text-align: center; font-style: italic; color: #ff69b4;">"${character.todayMessage}"</p>
+                </div>
+            `;
+            
+            // Fortune by category with character advice
+            Object.entries(FORTUNE_CATEGORIES).forEach(([key, cat]) => {
+                const score = scores[key];
+                const level = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : score >= 40 ? 'Fair' : 'Challenging';
+                const color = score >= 80 ? '#4caf50' : score >= 60 ? '#2196f3' : score >= 40 ? '#ff9800' : '#f44336';
+                const characterAdvice = character.advice[key] || "Follow your heart and trust your instincts.";
+                
+                html += `<div class="result-card">
+                    <div class="result-header">
+                        <span style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.3em;">${cat.icon}</span>
+                            <span class="result-title">${cat.name}</span>
+                        </span>
+                        <span class="result-score" style="color: ${color};">${score}</span>
+                    </div>
+                    <div class="result-level" style="color: ${color}; font-weight: 600; margin-bottom: 8px;">${level}</div>
+                    <div style="font-size: 0.9em; opacity: 0.9; line-height: 1.4;">
+                        <strong>${character.name}'s Advice:</strong> ${characterAdvice}
+                    </div>
+                </div>`;
+            });
+            
+            return html;
+        }
+
+        // Character-based compatibility
+        function generateCharacterCompatibility(birth1, birth2) {
+            const char1 = getCharacterMatch(birth1);
+            const char2 = getCharacterMatch(birth2);
+            
+            // Special messages for character combinations
+            const compatibilityMessages = {
+                'rumi-mira': 'Leader and Rebel combination! Your differences create perfect balance.',
+                'rumi-zoey': 'Reliable leader and creative youngest! A relationship that complements and grows together.',
+                'mira-zoey': 'Meeting of honesty and innocence! You can share authentic friendship and love.',
+                'rumi-jinu': 'Meeting of two leaders! You can overcome the past and create a new future together.',
+                'jinu-celine': 'Reflective soul and wise protector! You can find healing in each other.',
+                'celine-gwima': 'Wisdom meets transformation! Traditional knowledge and revolutionary power unite.',
+                'derpy-sussie': 'Joy meets wisdom! Innocent messenger and insightful observer create perfect harmony.',
+                'healerhan-celine': 'Alternative and traditional healing! Ancient wisdom meets modern creativity.'
+            };
+            
+            const key1 = `${char1.name.toLowerCase()}-${char2.name.toLowerCase()}`;
+            const key2 = `${char2.name.toLowerCase()}-${char1.name.toLowerCase()}`;
+            const specialMessage = compatibilityMessages[key1] || compatibilityMessages[key2] || 
+                `${char1.name} and ${char2.name}'s meeting! Different charms create new chemistry.`;
+            
+            return {
+                char1, char2, specialMessage
+            };
+        }
+
+        // Character showcase function for introduction
+        function showCharacterGallery() {
+            let galleryHtml = `
+                <div style="text-align: center; margin: 20px 0;">
+                    <h2 style="color: #ffd700;">🌟 K-pop Demon Hunters Characters 🌟</h2>
+                    <p style="color: #00bfff; margin-bottom: 30px;">Discover which character matches your destiny!</p>
+                </div>
+            `;
+            
+            const groups = {
+                'Huntr/x': '⭐',
+                'Saja Boys': '🔥', 
+                'Mentor': '🌙',
+                'Cosmic Power': '⚡',
+                'Spirit Guides': '🌟',
+                'Wise Healers': '🌿'
+            };
+            
+            Object.entries(groups).forEach(([groupName, icon]) => {
+                const groupChars = Object.values(KPOP_CHARACTERS).filter(char => char.group === groupName);
+                if (groupChars.length > 0) {
+                    galleryHtml += `
+                        <div class="result-card">
+                            <h3 style="color: #ff69b4; margin-bottom: 15px;">${icon} ${groupName}</h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                    `;
+                    
+                    groupChars.forEach(char => {
+                        galleryHtml += `
+                            <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,215,0,0.3);">
+                                <h4 style="color: #ffd700; margin-bottom: 5px;">${char.name}</h4>
+                                <p style="color: #00bfff; font-size: 0.9em; margin-bottom: 10px; font-style: italic;">${char.title}</p>
+                                <div style="display: flex; flex-wrap: wrap; gap: 5px; justify-content: center;">
+                                    ${char.traits.slice(0, 2).map(trait => 
+                                        `<span style="background: rgba(255,215,0,0.2); color: #ffd700; padding: 2px 6px; border-radius: 8px; font-size: 0.75em;">${trait}</span>`
+                                    ).join('')}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    galleryHtml += '</div></div>';
+                }
+            });
+
+            galleryHtml += `
+                <div style="text-align: center; margin-top: 30px;">
+                    <p style="color: #00bfff; margin-bottom: 15px;">Want to discover your character match?</p>
+                    <button class="btn" onclick="closeModal('characterModal'); showDailyFortune();" style="width: auto; padding: 12px 24px;">Get Your Character Reading</button>
+                </div>
+            `;
+            
+            document.getElementById('characterGalleryContent').innerHTML = galleryHtml;
+            document.getElementById('characterModal').style.display = 'block';
+        }
         
         // Create floating particles
         function createParticles() {
@@ -962,6 +1275,7 @@
             document.getElementById(modalId).style.display = 'none';
         }
         
+        // Enhanced daily fortune with character matching
         function generateDailyFortune() {
             if (!checkDailyLimit('horoscope')) return;
             
@@ -973,37 +1287,9 @@
                 return;
             }
             
-            const today = new Date();
-            const seed = birth.replace(/-/g, '') + today.toDateString();
-            const scores = {};
-            
-            Object.keys(FORTUNE_CATEGORIES).forEach(category => {
-                const hash = simpleHash(seed + category);
-                scores[category] = (hash % 80) + 20;
-            });
-            
-            let html = `<div style="text-align: center; margin: 20px 0;">
-                <h3 style="margin-bottom: 16px; color: #ffd700;">✨ ${name}'s Fortune for Today ✨</h3>
-            </div>`;
-            
-            Object.entries(FORTUNE_CATEGORIES).forEach(([key, cat]) => {
-                const score = scores[key];
-                const level = score >= 80 ? 'Excellent' : score >= 60 ? 'Good' : score >= 40 ? 'Fair' : 'Challenging';
-                const color = score >= 80 ? '#4caf50' : score >= 60 ? '#2196f3' : score >= 40 ? '#ff9800' : '#f44336';
-                
-                html += `<div class="result-card">
-                    <div class="result-header">
-                        <span style="display: flex; align-items: center; gap: 8px;">
-                            <span style="font-size: 1.3em;">${cat.icon}</span>
-                            <span class="result-title">${cat.name}</span>
-                        </span>
-                        <span class="result-score" style="color: ${color};">${score}</span>
-                    </div>
-                    <div class="result-level" style="color: ${color}; font-weight: 600;">${level}</div>
-                </div>`;
-            });
-            
-            document.getElementById('dailyResult').innerHTML = html;
+            // Use character-based fortune instead of basic fortune
+            const characterFortuneHtml = generateCharacterFortune(birth, name);
+            document.getElementById('dailyResult').innerHTML = characterFortuneHtml;
         }
         
         function generateLuckyNumbers() {
@@ -1059,6 +1345,9 @@
             const hash2 = simpleHash(birth2);
             const compatibility = ((hash1 + hash2) % 80) + 20;
             
+            // Get character compatibility analysis
+            const charCompatibility = generateCharacterCompatibility(birth1, birth2);
+            
             // Clear input fields immediately after processing
             document.getElementById('comp1Birth').value = '';
             document.getElementById('comp2Birth').value = '';
@@ -1089,7 +1378,12 @@
                 <div class="compatibility-bar">
                     <div class="compatibility-fill" style="width: ${compatibility}%; background: ${color};"></div>
                 </div>
-                <p style="line-height: 1.6; opacity: 0.9;">${advice}</p>
+                <p style="line-height: 1.6; opacity: 0.9; margin-bottom: 16px;">${advice}</p>
+                <div class="result-card">
+                    <h4 style="color: #ffd700; margin-bottom: 12px;">🎭 Character Match Analysis</h4>
+                    <p style="margin-bottom: 8px;"><strong>${charCompatibility.char1.name}</strong> (${charCompatibility.char1.title}) + <strong>${charCompatibility.char2.name}</strong> (${charCompatibility.char2.title})</p>
+                    <p style="line-height: 1.6; opacity: 0.9;">${charCompatibility.specialMessage}</p>
+                </div>
             </div>`;
             
             document.getElementById('compatibilityResult').innerHTML = html;
