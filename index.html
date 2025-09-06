@@ -92,6 +92,16 @@
             animation: glow 3s ease-in-out infinite alternate;
         }
         
+        .gat-overlay {
+    position: absolute;
+    top: -2px;          /* 이 값을 변경하세요 */
+    left: 50%;
+    transform: translateX(-50%) rotate(9deg);
+    width: 35px;         /* 이 값도 35px로 변경 */
+    height: auto;
+    z-index: 10;
+}
+        
         @keyframes glow {
             from { filter: drop-shadow(0 0 20px rgba(255,215,0,0.6)); }
             to { filter: drop-shadow(0 0 30px rgba(255,215,0,0.9)); }
