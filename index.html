@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mystic Tell - Fortune Reading</title>
@@ -27,12 +26,6 @@
     <meta name="description" content="Free online fortune reading, tarot cards, lucky numbers, and love compatibility. Modern, stylish approach to destiny and fate.">
     <meta name="keywords" content="fortune reading, tarot, astrology, lucky numbers, compatibility, free, online, mystic">
     
-    <style>
-    <!-- 기존 CSS... -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mystic Tell - Fortune Reading</title>
-    <link rel="icon" type="image/png" href="https://i.imgur.com/OPGxLsf.png">
     <style>
         * {
             margin: 0;
@@ -483,18 +476,117 @@
             display: none;
         }
         
-        @media (max-width: 480px) {
+        .footer {
+            background: rgba(255,255,255,0.05);
+            margin-top: 60px;
+            padding: 40px 0 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer-content {
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        
+        .footer-section h4 {
+            color: #ffd700;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+        
+        .footer-section p {
+            opacity: 0.8;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        
+        .disclaimer-text {
+            font-size: 0.85em;
+            opacity: 0.7;
+            margin-bottom: 24px;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            border-left: 3px solid #ffd700;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: #ffd700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+        }
+        
+        .footer-bottom p {
+            font-size: 0.8em;
+            color: #ffffff;
+            margin: 4px 0;
+        }
+        
+        .age-restriction {
+            color: #ff9800 !important;
+            font-weight: 600 !important;
+        }
+        
+        /* 모바일 최적화 */
+        @media screen and (max-width: 600px) {
             .container {
                 padding: 16px;
             }
             
             .modal-content {
-                padding: 24px;
-                border-radius: 20px;
+                width: 90vw !important;
+                max-width: 350px !important;
+                max-height: 85vh !important;
+                padding: 20px !important;
+                margin: 20px auto !important;
+                top: 10% !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
             }
             
             .service-card {
                 padding: 20px;
+            }
+            
+            .input-field {
+                font-size: 16px !important;
+                padding: 12px !important;
+            }
+            
+            .btn {
+                font-size: 16px !important;
+                padding: 14px !important;
+            }
+            
+            .tarot-three-cards {
+                flex-direction: column !important;
+                gap: 15px !important;
+            }
+            
+            .card-position {
+                min-width: auto !important;
+                max-width: none !important;
             }
         }
     </style>
@@ -567,7 +659,7 @@
             </div>
             <div class="input-group">
                 <label class="input-label">Your Birth Date:</label>
-               <input type="date" class="input-field" id="comp2Birth" lang="en">
+                <input type="date" class="input-field" id="dailyBirth" lang="en">
             </div>
             <div class="input-group">
                 <label class="input-label">Your Name (optional):</label>
@@ -617,7 +709,7 @@
             </div>
             <div class="input-group">
                 <label class="input-label">Your Birth Date:</label>
-               <input type="date" class="input-field" id="luckyBirth" lang="en">
+                <input type="date" class="input-field" id="luckyBirth" lang="en">
             </div>
             <button class="btn" onclick="generateLuckyNumbers()">Generate My Lucky Numbers</button>
             <div id="luckyResult"></div>
@@ -632,11 +724,11 @@
             </div>
             <div class="input-group">
                 <label class="input-label">Your Birth Date:</label>
-                 <input type="date" class="input-field" id="comp1Birth" lang="en">
+                <input type="date" class="input-field" id="comp1Birth" lang="en">
             </div>
             <div class="input-group">
                 <label class="input-label">Partner's Birth Date:</label>
-                <input type="date" class="input-field" id="comp1Birth" lang="en">
+                <input type="date" class="input-field" id="comp2Birth" lang="en">
             </div>
             <button class="btn" onclick="calculateCompatibility()">Check Our Compatibility</button>
             <div id="compatibilityResult"></div>
@@ -710,6 +802,58 @@
             return true;
         }
         
+        // Daily limit system
+        function checkDailyLimit(service) {
+            const today = new Date().toDateString();
+            const lastUsed = localStorage.getItem(`${service}_lastUsed`);
+            
+            if (lastUsed === today) {
+                showDailyLimitMessage(service);
+                return false;
+            }
+            
+            localStorage.setItem(`${service}_lastUsed`, today);
+            return true;
+        }
+        
+        function showDailyLimitMessage(service) {
+            let serviceName, emoji, message;
+            
+            switch(service) {
+                case 'horoscope':
+                    serviceName = 'Daily Horoscope';
+                    emoji = '🌟';
+                    message = 'You have already checked your horoscope today!';
+                    break;
+                case 'tarot':
+                    serviceName = 'Tarot Reading';
+                    emoji = '🔮';
+                    message = 'You have already received your tarot reading today!';
+                    break;
+                case 'luckyNumbers':
+                    serviceName = 'Lucky Numbers';
+                    emoji = '🎲';
+                    message = 'You have already generated your lucky numbers today!';
+                    break;
+            }
+            
+            alert(`${emoji} ${serviceName}\n\n${message}\n\nCome back tomorrow for a new reading!\n\n✨ The universe reveals new insights each day ✨`);
+        }
+        
+        function checkAndResetIfNewDay() {
+            const today = new Date().toDateString();
+            const lastVisit = localStorage.getItem('lastVisitDate');
+            
+            if (lastVisit && lastVisit !== today) {
+                const services = ['horoscope', 'tarot', 'luckyNumbers'];
+                services.forEach(service => {
+                    localStorage.removeItem(`${service}_lastUsed`);
+                });
+            }
+            
+            localStorage.setItem('lastVisitDate', today);
+        }
+        
         function showDailyFortune() {
             document.getElementById('dailyModal').style.display = 'block';
         }
@@ -725,7 +869,8 @@
         }
         
         function drawThreeCards() {
-             if (!checkDailyLimit('tarot')) return;  // 이 줄 추가
+            if (!checkDailyLimit('tarot')) return;
+            
             // Select 3 random different cards
             const selectedCards = [];
             const usedIndices = new Set();
@@ -742,7 +887,6 @@
             
             // Display the three cards
             const positions = ['past', 'present', 'future'];
-            const positionLabels = ['Past', 'Present', 'Future'];
             
             positions.forEach((position, index) => {
                 const card = selectedCards[index];
@@ -819,8 +963,9 @@
         }
         
         function generateDailyFortune() {
+            if (!checkDailyLimit('horoscope')) return;
+            
             const birth = document.getElementById('dailyBirth').value;
-             if (!checkDailyLimit('horoscope')) return;  // 이 줄 추가
             const name = document.getElementById('dailyName').value || 'Seeker';
             
             if (!birth) {
@@ -862,7 +1007,8 @@
         }
         
         function generateLuckyNumbers() {
-            if (!checkDailyLimit('luckyNumbers')) return;  // 이 줄 추가
+            if (!checkDailyLimit('luckyNumbers')) return;
+            
             const birth = document.getElementById('luckyBirth').value;
             
             if (!birth) {
@@ -959,6 +1105,23 @@
             return Math.abs(hash);
         }
         
+        // Legal modal functions
+        function showPrivacyPolicy() {
+            alert('Privacy Policy:\n\n• We process birth dates locally in your browser\n• Data is immediately deleted after calculation\n• No information stored on servers\n• Contact: tmrw@tmrw.co.kr for questions');
+        }
+        
+        function showTermsOfService() {
+            alert('Terms of Service:\n\n• Entertainment purposes only\n• Not medical/legal/financial advice\n• Must be 13+ years old\n• Use at your own discretion\n• No guarantee of accuracy');
+        }
+        
+        function showAboutUs() {
+            alert('About Mystic Tell:\n\n• Digital fortune reading for entertainment\n• Combines traditional methods with algorithms\n• Privacy-focused design\n• For self-reflection and fun');
+        }
+        
+        function showContact() {
+            alert('Contact Information:\n\nEmail: tmrw@tmrw.co.kr\n\nWe can help with:\n• Technical issues\n• Privacy questions\n• General feedback\n\nResponse time: 48 hours');
+        }
+        
         // Close modal when clicking outside
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
@@ -966,171 +1129,34 @@
             }
         }
         
-        // Initialize particles
+        // Initialize particles and check daily limits
         createParticles();
-
-     // Legal modal functions
-function showPrivacyPolicy() {
-    alert('Privacy Policy:\n\n• We process birth dates locally in your browser\n• Data is immediately deleted after calculation\n• No information stored on servers\n• Contact: tmrw@tmrw.co.kr for questions');
-}
-
-function showTermsOfService() {
-    alert('Terms of Service:\n\n• Entertainment purposes only\n• Not medical/legal/financial advice\n• Must be 13+ years old\n• Use at your own discretion\n• No guarantee of accuracy');
-}
-
-function showAboutUs() {
-    alert('About Mystic Tell:\n\n• Digital fortune reading for entertainment\n• Combines traditional methods with algorithms\n• Privacy-focused design\n• For self-reflection and fun');
-}
-
-function showContact() {
-    alert('Contact Information:\n\nEmail: tmrw@tmrw.co.kr\n\nWe can help with:\n• Technical issues\n• Privacy questions\n• General feedback\n\nResponse time: 48 hours');
-}   
-
-// 일일 제한 시스템
-function checkDailyLimit(service) {
-    const today = new Date().toDateString();
-    const lastUsed = localStorage.getItem(`${service}_lastUsed`);
+        checkAndResetIfNewDay();
+    </script>
     
-    if (lastUsed === today) {
-        showDailyLimitMessage(service);
-        return false;
-    }
-    
-    localStorage.setItem(`${service}_lastUsed`, today);
-    return true;
-}
-
-function showDailyLimitMessage(service) {
-    let serviceName, emoji, message;
-    
-    switch(service) {
-        case 'horoscope':
-            serviceName = 'Daily Horoscope';
-            emoji = '🌟';
-            message = 'You have already checked your horoscope today!';
-            break;
-        case 'tarot':
-            serviceName = 'Tarot Reading';
-            emoji = '🔮';
-            message = 'You have already received your tarot reading today!';
-            break;
-        case 'luckyNumbers':
-            serviceName = 'Lucky Numbers';
-            emoji = '🎲';
-            message = 'You have already generated your lucky numbers today!';
-            break;
-    }
-    
-    alert(`${emoji} ${serviceName}\n\n${message}\n\nCome back tomorrow for a new reading!\n\n✨ The universe reveals new insights each day ✨`);
-}
-
-// 페이지 로드시 새 날짜 체크
-function checkAndResetIfNewDay() {
-    const today = new Date().toDateString();
-    const lastVisit = localStorage.getItem('lastVisitDate');
-    
-    if (lastVisit && lastVisit !== today) {
-        const services = ['horoscope', 'tarot', 'luckyNumbers'];
-        services.forEach(service => {
-            localStorage.removeItem(`${service}_lastUsed`);
-        });
-    }
-    
-    localStorage.setItem('lastVisitDate', today);
-}
-
-checkAndResetIfNewDay();
-
-/* 완전한 모바일 수정 */
-@media screen and (max-width: 600px) {
-    .modal-content {
-        position: fixed !important;
-        top: 5% !important;
-        left: 5% !important;
-        right: 5% !important;
-        bottom: auto !important;
-        width: 90% !important;
-        max-width: none !important;
-        max-height: 90vh !important;
-        transform: none !important;
-        padding: 20px !important;
-        overflow-y: auto !important;
-        margin: 0 !important;
-    }
-    
-    .modal-header {
-        margin-bottom: 20px !important;
-    }
-    
-    .modal-title {
-        font-size: 1.4em !important;
-        text-align: center !important;
-    }
-    
-    .input-group {
-        margin: 15px 0 !important;
-    }
-    
-    .input-label {
-        font-size: 1em !important;
-        margin-bottom: 8px !important;
-    }
-    
-    .input-field {
-        width: 100% !important;
-        padding: 12px !important;
-        font-size: 16px !important;
-        box-sizing: border-box !important;
-    }
-    
-    .btn {
-        width: 100% !important;
-        padding: 14px !important;
-        font-size: 1.1em !important;
-        margin-top: 15px !important;
-    }
-    
-    .result-card {
-        margin: 15px 0 !important;
-        padding: 15px !important;
-    }
-    
-    .tarot-three-cards {
-        flex-direction: column !important;
-        gap: 15px !important;
-    }
-    
-    .card-position {
-        min-width: auto !important;
-        max-width: none !important;
-    }
-}                
-</script>
-    
-    <!-- Footer (여기에 넣기) -->
-<footer class="footer">
-    <div class="footer-content">
-        <div class="footer-section">
-            <h4>Mystic Tell</h4>
-            <p>Your digital gateway to mystical insights and entertainment.</p>
-            <div class="disclaimer-text">
-                For entertainment purposes only. Not intended as medical, legal, or professional advice.
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Mystic Tell</h4>
+                <p>Your digital gateway to mystical insights and entertainment.</p>
+                <div class="disclaimer-text">
+                    For entertainment purposes only. Not intended as medical, legal, or professional advice.
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <a href="#" onclick="showPrivacyPolicy()">Privacy Policy</a>
+                <a href="#" onclick="showTermsOfService()">Terms of Service</a>
+                <a href="#" onclick="showAboutUs()">About Us</a>
+                <a href="#" onclick="showContact()">Contact</a>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Mystic Tell. All rights reserved.</p>
+                <p class="age-restriction">Must be 13+ to use this service</p>
             </div>
         </div>
-        
-        <div class="footer-links">
-            <a href="#" onclick="showPrivacyPolicy()">Privacy Policy</a>
-            <a href="#" onclick="showTermsOfService()">Terms of Service</a>
-            <a href="#" onclick="showAboutUs()">About Us</a>
-            <a href="#" onclick="showContact()">Contact</a>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 Mystic Tell. All rights reserved.</p>
-            <p class="age-restriction">Must be 13+ to use this service</p>
-        </div>
-    </div>
-</footer>
-    
+    </footer>
 </body>
 </html>
