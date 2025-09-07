@@ -1351,61 +1351,107 @@
         }
         
         function calculateCompatibility() {
-            const birth1 = document.getElementById('comp1Birth').value;
-            const birth2 = document.getElementById('comp2Birth').value;
-            
-            if (!birth1 || !birth2) {
-                alert('Please enter both birth dates');
-                return;
-            }
-            
-            const hash1 = simpleHash(birth1);
-            const hash2 = simpleHash(birth2);
-            const compatibility = ((hash1 + hash2) % 80) + 20;
-            
-            // Get character compatibility analysis
-            const charCompatibility = generateCharacterCompatibility(birth1, birth2);
-            
-            // Clear input fields immediately after processing
-            document.getElementById('comp1Birth').value = '';
-            document.getElementById('comp2Birth').value = '';
-            
-            let level, advice, color;
-            if (compatibility >= 80) {
-                level = 'Soulmates';
-                advice = 'You two share an incredible cosmic connection! Your energies complement each other beautifully.';
-                color = '#4caf50';
-            } else if (compatibility >= 60) {
-                level = 'Great Match';
-                advice = 'You have wonderful potential together. Your differences create beautiful harmony.';
-                color = '#2196f3';
-            } else if (compatibility >= 40) {
-                level = 'Good Potential';
-                advice = 'With understanding and effort, you can build something truly special together.';
-                color = '#ff9800';
-            } else {
-                level = 'Growth Journey';
-                advice = 'Your relationship will teach you both valuable lessons about love and patience.';
-                color = '#f44336';
-            }
-            
-            const html = `<div class="result-card" style="text-align: center;">
-                <h3 style="color: #ffd700; margin-bottom: 16px;">Compatibility Analysis</h3>
-                <div style="font-size: 2.5em; margin: 16px 0; color: ${color};">${compatibility}%</div>
-                <h4 style="color: ${color}; margin-bottom: 16px;">${level}</h4>
-                <div class="compatibility-bar">
-                    <div class="compatibility-fill" style="width: ${compatibility}%; background: ${color};"></div>
-                </div>
-                <p style="line-height: 1.6; opacity: 0.9; margin-bottom: 16px;">${advice}</p>
-                <div class="result-card">
-                    <h4 style="color: #ffd700; margin-bottom: 12px;">🎭 Character Match Analysis</h4>
-                    <p style="margin-bottom: 8px;"><strong>${charCompatibility.char1.name}</strong> (${charCompatibility.char1.title}) + <strong>${charCompatibility.char2.name}</strong> (${charCompatibility.char2.title})</p>
-                    <p style="line-height: 1.6; opacity: 0.9;">${charCompatibility.specialMessage}</p>
-                </div>
-            </div>`;
-            
-            document.getElementById('compatibilityResult').innerHTML = html;
-        }
+    const birth1 = document.getElementById('comp1Birth').value;
+    const birth2 = document.getElementById('comp2Birth').value;
+    
+    if (!birth1 || !birth2) {
+        alert('Please enter both birth dates');
+        return;
+    }
+    
+    const hash1 = simpleHash(birth1);
+    const hash2 = simpleHash(birth2);
+    const compatibility = ((hash1 + hash2) % 80) + 20;
+    
+    // Get character compatibility analysis
+    const charCompatibility = generateCharacterCompatibility(birth1, birth2);
+    
+    // Clear input fields immediately after processing
+    document.getElementById('comp1Birth').value = '';
+    document.getElementById('comp2Birth').value = '';
+    
+    let level, advice, color, detailedAnalysis, practicalTips;
+    
+    if (compatibility >= 80) {
+        level = 'Soulmates';
+        advice = 'You two share an incredible cosmic connection! Your energies complement each other beautifully.';
+        color = '#4caf50';
+        detailedAnalysis = {
+            strengths: "Your communication flows effortlessly, and you understand each other's needs intuitively. There's a natural harmony in your life goals and values.",
+            challenges: "Your connection is so strong that you might lose individual identity. Remember to maintain personal space and interests.",
+            growth: "This relationship can help you both reach your highest potential. You inspire each other to be better versions of yourselves."
+        };
+        practicalTips = "Plan future goals together, support each other's dreams, and don't take this special connection for granted.";
+    } else if (compatibility >= 60) {
+        level = 'Great Match';
+        advice = 'You have wonderful potential together. Your differences create beautiful harmony.';
+        color = '#2196f3';
+        detailedAnalysis = {
+            strengths: "You balance each other well, with your differences creating interesting dynamics. There's mutual respect and genuine attraction.",
+            challenges: "Different approaches to life may cause occasional friction. Communication style differences need attention.",
+            growth: "You can learn valuable lessons from each other's perspectives and develop greater emotional maturity together."
+        };
+        practicalTips = "Practice active listening, celebrate your differences, and find common activities you both enjoy.";
+    } else if (compatibility >= 40) {
+        level = 'Good Potential';
+        advice = 'With understanding and effort, you can build something truly special together.';
+        color = '#ff9800';
+        detailedAnalysis = {
+            strengths: "There's genuine attraction and potential for growth. You can learn important life lessons from each other.",
+            challenges: "Requires patience and understanding. Different life rhythms and priorities may create tension at times.",
+            growth: "This relationship can teach you both compromise, patience, and the value of working through differences together."
+        };
+        practicalTips = "Focus on building trust, be patient with differences, and create shared experiences to strengthen your bond.";
+    } else {
+        level = 'Growth Journey';
+        advice = 'Your relationship will teach you both valuable lessons about love and patience.';
+        color = '#f44336';
+        detailedAnalysis = {
+            strengths: "This connection offers powerful lessons about love, patience, and personal growth. You challenge each other to evolve.",
+            challenges: "Significant differences in approach and values require constant work. Misunderstandings may be frequent initially.",
+            growth: "Through patience and dedication, you can both develop greater emotional intelligence and relationship skills."
+        };
+        practicalTips = "Take things slowly, focus on understanding rather than changing each other, and celebrate small improvements.";
+    }
+    
+    const html = `<div class="result-card" style="text-align: center;">
+        <h3 style="color: #ffd700; margin-bottom: 16px;">Compatibility Analysis</h3>
+        <div style="font-size: 2.5em; margin: 16px 0; color: ${color};">${compatibility}%</div>
+        <h4 style="color: ${color}; margin-bottom: 16px;">${level}</h4>
+        <div class="compatibility-bar">
+            <div class="compatibility-fill" style="width: ${compatibility}%; background: ${color};"></div>
+        </div>
+        <p style="line-height: 1.6; opacity: 0.9; margin-bottom: 16px;">${advice}</p>
+        
+        <div class="result-card">
+            <h4 style="color: #ffd700; margin-bottom: 12px;">🎭 Character Match Analysis</h4>
+            <p style="margin-bottom: 8px;"><strong>${charCompatibility.char1.name}</strong> (${charCompatibility.char1.title}) + <strong>${charCompatibility.char2.name}</strong> (${charCompatibility.char2.title})</p>
+            <p style="line-height: 1.6; opacity: 0.9; margin-bottom: 16px;">${charCompatibility.specialMessage}</p>
+        </div>
+        
+        <div class="result-card">
+            <h4 style="color: #ffd700; margin-bottom: 12px;">💫 Detailed Relationship Analysis</h4>
+            <div style="text-align: left; margin-bottom: 12px;">
+                <h5 style="color: #4caf50; margin-bottom: 6px;">✨ Strengths:</h5>
+                <p style="line-height: 1.5; opacity: 0.9; margin-bottom: 12px;">${detailedAnalysis.strengths}</p>
+                
+                <h5 style="color: #ff9800; margin-bottom: 6px;">⚡ Challenges:</h5>
+                <p style="line-height: 1.5; opacity: 0.9; margin-bottom: 12px;">${detailedAnalysis.challenges}</p>
+                
+                <h5 style="color: #2196f3; margin-bottom: 6px;">🌱 Growth Potential:</h5>
+                <p style="line-height: 1.5; opacity: 0.9;">${detailedAnalysis.growth}</p>
+            </div>
+        </div>
+        
+        <div class="result-card">
+            <h4 style="color: #ffd700; margin-bottom: 12px;">💝 Practical Love Tips</h4>
+            <p style="line-height: 1.6; opacity: 0.9; text-align: left;">${practicalTips}</p>
+        </div>
+        
+    </div>`;
+    
+    document.getElementById('compatibilityResult').innerHTML = html;
+}
         
         function simpleHash(str) {
             let hash = 0;
