@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://mystictelling.com/sitemap.xml
+google.com, pub-6295549457389423, DIRECT, f08c47fec0942fa0
