@@ -1145,19 +1145,31 @@
             return true;
         }
         
-        // Daily limit system
-        function checkDailyLimit(service) {
-            const today = new Date().toDateString();
-            const lastUsed = localStorage.getItem(`${service}_lastUsed`);
-            
-            if (lastUsed === today) {
-                showDailyLimitMessage(service);
-                return false;
-            }
-            
-            localStorage.setItem(`${service}_lastUsed`, today);
-            return true;
-        }
+       // Daily limit system (수정 버전)
+
+// 오늘 날짜 문자열 만드는 함수 (그냥 Date 써도 되고, 필요하면 KST로 바꿔도 됨)
+function getTodayKey() {
+    return new Date().toDateString();  // 예: 'Sat Dec 06 2025'
+}
+
+// 오늘 이미 썼는지 "확인만" 하는 함수
+function checkDailyLimit(service) {
+    const today = getTodayKey();
+    const lastUsed = localStorage.getItem(`${service}_lastUsed`);
+
+    if (lastUsed === today) {
+        showDailyLimitMessage(service);
+        return false;   // 오늘은 이미 사용함
+    }
+
+    return true;        // 오늘은 아직 사용 안 함
+}
+
+// 결과를 보여준 뒤에 "오늘 사용 완료"로 기록하는 함수
+function markServiceUsed(service) {
+    const today = getTodayKey();
+    localStorage.setItem(`${service}_lastUsed`, today);
+}
         
         function showDailyLimitMessage(service) {
             let serviceName, emoji, message;
