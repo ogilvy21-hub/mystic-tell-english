@@ -1,5 +1,6 @@
 User-agent: *
-Disallow:
+Allow: /
 
 Sitemap: https://mystictelling.com/sitemap.xml
+
 
